@@ -48,4 +48,13 @@ export class WebPagesService {
 
     return webPagesWithTotalLinks;
   }
+
+  async getById(id: number): Promise<WebPage> {
+    return this.webPageRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['links'],
+    });
+  }
 }
