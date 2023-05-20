@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ScrapeModule } from './scrape/scrape.module';
 import { WebPagesModule } from './web-pages/web-pages.module';
 import { LinksModule } from './links/links.module';
+import { UsersModule } from './users/users.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -19,6 +20,7 @@ import configuration from './config/configuration';
     ScrapeModule,
     WebPagesModule,
     LinksModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

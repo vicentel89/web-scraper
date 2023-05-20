@@ -1,7 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { WebPagesService } from './web-pages.service';
 import { WebPage } from './entities';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('web-pages')
 export class WebPagesController {
   constructor(private readonly webPagesService: WebPagesService) {}

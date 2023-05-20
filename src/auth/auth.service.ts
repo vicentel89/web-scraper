@@ -1,15 +1,11 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
-import { CreateUserDto, LoginUserDto } from './dto';
+import { LoginUserDto } from './dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -17,25 +13,8 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
-
-  async create(createUserDto: CreateUserDto) {
-    try {
-      const { password, ...userData } = createUserDto;
-
-      const user = this.userRepository.create({
-        ...userData,
-        password: bcrypt.hashSync(password, 10),
-      });
-
-      await this.userRepository.save(user);
-      delete user.password;
-
-      return user;
-    } catch (error) {
-      this.handleDBErrors(error);
-    }
-  }
 
   async login(loginUserDto: LoginUserDto) {
     const { password, username } = loginUserDto;
@@ -52,13 +31,9 @@ export class AuthService {
 
     return {
       ...userData,
-      access_token: await this.jwtService.signAsync(userData),
+      access_token: await this.jwtService.signAsync(userData, {
+        expiresIn: this.configService.get('jwtExpirationTime'),
+      }),
     };
-  }
-
-  private handleDBErrors(error: any): never {
-    if (error.code === '23505') throw new BadRequestException(error.detail);
-
-    throw new InternalServerErrorException('Please check server logs');
   }
 }
