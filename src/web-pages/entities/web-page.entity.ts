@@ -9,6 +9,6 @@ export class WebPage {
   @Column()
   name: string;
 
-  @OneToMany(() => Link, (link) => link.id)
+  @OneToMany(() => Link, (link) => link.webPage)
   links: Link[];
 }

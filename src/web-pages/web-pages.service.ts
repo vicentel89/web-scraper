@@ -35,4 +35,17 @@ export class WebPagesService {
 
     return createdWebPage;
   }
+
+  async list() {
+    const webPagesWithTotalLinks = await this.webPageRepository
+      .createQueryBuilder('webPage')
+      .leftJoinAndSelect('webPage.links', 'link')
+      .select('webPage.id', 'id')
+      .addSelect('webPage.name', 'name')
+      .addSelect('COUNT(link.id)', 'totalLinks')
+      .groupBy('webPage.id')
+      .getRawMany();
+
+    return webPagesWithTotalLinks;
+  }
 }
