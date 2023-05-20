@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { WebPage } from 'src/web-pages/entities';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -14,4 +15,7 @@ export class User {
     select: false,
   })
   password: string;
+
+  @OneToMany(() => WebPage, (webPage) => webPage.user)
+  webPages: WebPage[];
 }

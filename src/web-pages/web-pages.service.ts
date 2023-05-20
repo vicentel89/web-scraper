@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WebPage } from './entities';
 import { LinksService } from 'src/links/links.service';
+import { CurrentUserInterface } from 'src/users/interfaces/current-user.interface';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class WebPagesService {
@@ -11,13 +13,17 @@ export class WebPagesService {
     @InjectRepository(WebPage)
     private readonly webPageRepository: Repository<WebPage>,
     private readonly linkService: LinksService,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(createWebPageDto: CreateWebPageDto): Promise<WebPage> {
-    const { name, links } = createWebPageDto;
+    const { user: currentUser, name, links } = createWebPageDto;
+
+    const user = await this.usersService.findById(currentUser.sub);
 
     const webPage = new WebPage();
     webPage.name = name;
+    webPage.user = user;
 
     const createdWebPage = await this.webPageRepository.save(webPage);
 
@@ -36,11 +42,12 @@ export class WebPagesService {
     return createdWebPage;
   }
 
-  async list() {
+  async list(user: CurrentUserInterface) {
     const webPagesWithTotalLinks = await this.webPageRepository
       .createQueryBuilder('webPage')
       .leftJoinAndSelect('webPage.links', 'link')
       .select('webPage.id', 'id')
+      .where('webPage.userId = :userId', { userId: user.sub })
       .addSelect('webPage.name', 'name')
       .addSelect('COUNT(link.id)', 'totalLinks')
       .groupBy('webPage.id')

@@ -1,5 +1,13 @@
 import { Link } from 'src/links/entities';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class WebPage {
@@ -11,4 +19,8 @@ export class WebPage {
 
   @OneToMany(() => Link, (link) => link.webPage)
   links: Link[];
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

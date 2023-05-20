@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Link } from 'src/links/entities';
+import { CurrentUserInterface } from 'src/users/interfaces/current-user.interface';
 import { WebPagesService } from 'src/web-pages/web-pages.service';
 
 type LinkType = Omit<Link, 'id' | 'webPage'>;
@@ -11,6 +12,7 @@ export class ScrapeService {
   constructor(private readonly webPageService: WebPagesService) {}
 
   async scrapeUrl(
+    user: CurrentUserInterface,
     url: string,
   ): Promise<{ pageName: string; links: LinkType[] }> {
     const html = await this.fetchHtml(url);
@@ -22,7 +24,11 @@ export class ScrapeService {
     const normalizedLinks = this.normalizeLinks(url, filteredLinks);
     const uniqueLinks = this.removeDuplicateLinks(normalizedLinks);
 
-    await this.webPageService.create({ name: pageName, links: uniqueLinks });
+    await this.webPageService.create({
+      user,
+      name: pageName,
+      links: uniqueLinks,
+    });
 
     return { pageName, links: uniqueLinks };
   }
