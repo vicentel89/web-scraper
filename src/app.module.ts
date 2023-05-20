@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ScrapeModule } from './scrape/scrape.module';
+import { WebPagesModule } from './web-pages/web-pages.module';
+import { LinksModule } from './links/links.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -15,6 +17,8 @@ import configuration from './config/configuration';
     }),
     AuthModule,
     ScrapeModule,
+    WebPagesModule,
+    LinksModule,
   ],
   controllers: [],
   providers: [],
