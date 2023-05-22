@@ -2,7 +2,7 @@
 
 ## Description
 
-This project utilizes NestJS, PostgreSQL, and TypeORM to perform web scraping and store the discovered links within a provided URL. It provides an API that accepts a URL and saves all the found links in a PostgreSQL database.
+This project utilizes NestJS, Cheerio, PostgreSQL, and TypeORM to perform web scraping and store the discovered links within a provided URL. It provides an API that accepts a URL and saves all the found links in a PostgreSQL database.
 
 ## Installation
 
@@ -58,6 +58,12 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## License
+## Tools Used:
 
-UNLICENSED
+- **NestJS**: A progressive Node.js framework for building efficient, scalable, and maintainable server-side applications.
+- **PostgreSQL**: A powerful open-source relational database management system.
+- **TypeORM**: An object-relational mapping (ORM) library for TypeScript and JavaScript that simplifies database integration.
+- **Axios**: A promise-based HTTP client for making HTTP requests.
+- **Cheerio**: A fast, flexible, and lean implementation of core jQuery designed specifically for server-side HTML parsing.
+- **Jest**: A JavaScript testing framework for writing unit tests.
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
