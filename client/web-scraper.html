@@ -1,0 +1,63 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="margin: auto; max-width: 800px; margin-top: 48px" id="main">
+      <h1>Web Scraper</h1>
+      <div>
+        <input
+          placeholder="Add new page"
+          id="page"
+          style="margin-right: 16px"
+        /><button id="scrape">Scrape</button>
+      </div>
+      <div id="table" style="width: 100%; display: none">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 32px">
+          <thead>
+            <tr>
+              <th style="border: 1px solid black; padding: 8px">Name</th>
+              <th style="border: 1px solid black; padding: 8px">Total Links</th>
+            </tr>
+          </thead>
+          <tbody id="content"></tbody>
+        </table>
+        <div
+          id="pagination"
+          style="
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 8px;
+          "
+        ></div>
+      </div>
+    </div>
+    <div
+      id="details"
+      style="display: none; margin: auto; max-width: 800px; margin-top: 48px"
+    >
+      <h1 id="title"></h1>
+      <button id="back">back</button>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 32px">
+        <thead>
+          <tr>
+            <th style="border: 1px solid black; padding: 8px">Name</th>
+            <th style="border: 1px solid black; padding: 8px">Link</th>
+          </tr>
+        </thead>
+        <tbody id="details-content"></tbody>
+      </table>
+    </div>
+    <h2
+      id="loading"
+      style="display: none; margin: auto; max-width: 800px; margin-top: 48px"
+    >
+      Loading...
+    </h2>
+    <script src="web-scraper.js"></script>
+  </body>
+</html>

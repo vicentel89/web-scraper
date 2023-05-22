@@ -43,6 +43,8 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
+3. Navigate to `http://localhost:3000/`
+
 ## Test
 
 ```bash

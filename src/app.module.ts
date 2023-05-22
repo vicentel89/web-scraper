@@ -7,6 +7,8 @@ import { WebPagesModule } from './web-pages/web-pages.module';
 import { LinksModule } from './links/links.module';
 import { UsersModule } from './users/users.module';
 import configuration from './config/configuration';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -21,6 +23,9 @@ import configuration from './config/configuration';
     WebPagesModule,
     LinksModule,
     UsersModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
   ],
   controllers: [],
   providers: [],
