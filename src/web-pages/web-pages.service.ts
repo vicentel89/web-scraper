@@ -6,6 +6,11 @@ import { WebPage } from './entities';
 import { LinksService } from 'src/links/links.service';
 import { CurrentUserInterface } from 'src/users/interfaces/current-user.interface';
 import { UsersService } from 'src/users/users.service';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginateRaw,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class WebPagesService {
@@ -42,18 +47,20 @@ export class WebPagesService {
     return createdWebPage;
   }
 
-  async list(user: CurrentUserInterface) {
-    const webPagesWithTotalLinks = await this.webPageRepository
+  async list(
+    user: CurrentUserInterface,
+    paginationOptions: IPaginationOptions,
+  ): Promise<Pagination<WebPage>> {
+    const webPagesWithTotalLinks = this.webPageRepository
       .createQueryBuilder('webPage')
       .leftJoinAndSelect('webPage.links', 'link')
       .select('webPage.id', 'id')
       .where('webPage.userId = :userId', { userId: user.sub })
       .addSelect('webPage.name', 'name')
       .addSelect('COUNT(link.id)', 'totalLinks')
-      .groupBy('webPage.id')
-      .getRawMany();
+      .groupBy('webPage.id');
 
-    return webPagesWithTotalLinks;
+    return paginateRaw<WebPage>(webPagesWithTotalLinks, paginationOptions);
   }
 
   async getById(id: number): Promise<WebPage> {
